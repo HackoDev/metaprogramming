@@ -24,44 +24,41 @@ using namespace mpl::placeholders;
 
 struct visit_type
 {
-    template <class TVisitor>
-        void operator () (
-            TVisitor) const
-        {   
-            TVisitor::visit();
-        }
+  template <class TVisitor>
+  void operator () (TVisitor) const
+  {   
+    TVisitor::visit();
+  }
 };
 
 template <class T>
-    struct print_visitor
+struct print_visitor
 {
-    static void visit()
-    {
-        std::cout
-        << typeid (T).name()
-        << std::endl;
-    }
+  static void visit()
+  {
+    std::cout << typeid (T).name() << std::endl;
+  }
 };
 
 template <class TSeq> void print_types(int sIndex)
 {
-    std::cout << "------ Print Sequence (" << sIndex << ")------" << std::endl;
-    mpl::for_each <TSeq, print_visitor <_> > (
-        visit_type());
-    std::cout << "------ Print Finished ------" << std::endl;
+  std::cout << "------ Print Sequence (" << sIndex << ")------" << std::endl;
+  mpl::for_each <TSeq, print_visitor <_> > (visit_type());
+  std::cout << "------ Print Finished ------" << std::endl;
 }
 
 int main() {
-    typedef mpl::fold<
-        mpl::filter_view<
-            Seq,
-            boost::is_class<_>
-            // mpl::not_< boost::is_class<_> >
-        >::type, 
-        mpl::set0<>,
-        mpl::insert<_1, _2>
-    >::type newSeq;
-    print_types<Seq>(1);
-    print_types<newSeq>(2);
-    return 0;
+  typedef mpl::fold<
+                mpl::filter_view<
+                  Seq,
+                  boost::is_class<_>
+                  // mpl::not_< boost::is_class<_> >
+                >::type, 
+                mpl::set0<>,
+                mpl::insert<_1, _2>
+              >::type newSeq;
+
+  print_types<Seq>(1);
+  print_types<newSeq>(2);
+  return 0;
 }

@@ -20,7 +20,7 @@ vector<T*> update_iterator(Iterator it1, Iterator it2)
     for (T* tmp:v)
       if (*tmp == *it1)
         exists = true;
-    // add if doen't exist
+    // add if doesn't exist
     if (!exists)
       v.push_back(&*it1);
     // increase iterator
